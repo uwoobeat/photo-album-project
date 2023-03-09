@@ -1,19 +1,18 @@
 package com.squarecross.photoalbum.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
 
+@Builder
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "photo", schema = "photo_album", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"photo_id"})
 })
-@Getter
-@Setter
-@NoArgsConstructor
 public class Photo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
