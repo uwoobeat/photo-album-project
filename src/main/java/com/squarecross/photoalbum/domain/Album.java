@@ -1,21 +1,20 @@
 package com.squarecross.photoalbum.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Builder
+@Getter
+@AllArgsConstructor
 @Entity
 @Table(name = "album", schema = "photo_album", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"album_id"})
 })
-@Getter
-@Setter
-@NoArgsConstructor
 public class Album {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
