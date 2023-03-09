@@ -11,6 +11,7 @@ import java.util.List;
 @Builder
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "album", schema = "photo_album", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"album_id"})
@@ -22,10 +23,11 @@ public class Album {
     private Long id;
 
     @OneToMany(mappedBy = "album", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Photo> photos;
+    @Builder.Default
+    private List<Photo> photos = new ArrayList<Photo>();
 
     @Column(name = "album_name", unique = false, nullable = false)
-    private String albumName;
+    private String name;
 
     @Column(name = "created_at", unique = false, nullable = true)
     @CreationTimestamp
