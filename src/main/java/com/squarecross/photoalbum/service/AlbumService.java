@@ -22,7 +22,7 @@ public class AlbumService {
         return albumRepository.findAll();
     }
 
-    public List<Album> findAlbumsById(Long id) {
-        return albumRepository.findAllById(List.of(id));
+    public List<Album> findAlbumsByName(String name) {
+        return albumRepository.findByName(name);
     }
 }
