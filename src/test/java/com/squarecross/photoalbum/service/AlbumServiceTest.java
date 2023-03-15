@@ -11,21 +11,27 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
 class AlbumServiceTest {
+    @Autowired EntityManager em;
+    @Autowired AlbumService albumService;
+    @Autowired AlbumRepository albumRepository;
+
 
     @Test
-    @DisplayName("앨범을 생성한다.")
-    // create test code for createAlbum() for Album class, which have id, photos, name, createdAt field using builder pattern
+    @DisplayName("앨범 생성 테스트")
     void createAlbum() {
         // given
-        Album album = Album.builder()
-                .name("test")
-                .build();
+        Album album = Album.createAlbum("testAlbum");
+        em.persist(album);
 
-        // when
-        Album savedAlbum = albumService.createAlbum(album);
+        //when
+        Album findAlbum = albumRepository.findByName("testAlbum").get(0);
+
 
         // then
-        assertEquals(album, savedAlbum);
+        assertNotNull(album.getId());
+        assertEquals("testAlbum", album.getName());
+        assertEquals(0, album.getPhotos().size());
+        assertNotNull(album.getCreatedAt());
     }
 
     @Test
