@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Builder
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "album", schema = "photo_album", uniqueConstraints = {
@@ -23,7 +21,6 @@ public class Album {
     private Long id;
 
     @OneToMany(mappedBy = "album", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
     private List<Photo> photos = new ArrayList<Photo>();
 
     @Column(name = "album_name", unique = false, nullable = false)
@@ -33,5 +30,16 @@ public class Album {
     @CreationTimestamp
     private Date createdAt;
 
-    private int photoCount;
+    private int photoCount = 0;
+
+    @Builder
+    public Album(String name) {
+        this.name = name;
+    }
+
+    public static Album createAlbum(String name) {
+        return Album.builder()
+                .name(name)
+                .build();
+    }
 }

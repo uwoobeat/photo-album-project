@@ -5,9 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 
-@Builder
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "photo", schema = "photo_album", uniqueConstraints = {
@@ -37,4 +35,23 @@ public class Photo {
 
     @Column(name = "uploaded_at", unique = false, nullable = true)
     private Date uploadedAt;
+
+    @Builder
+    public Photo(String fileName, Long fileSize, String fileUrl, String thumbnailUrl, Date uploadedAt) {
+        this.fileName = fileName;
+        this.fileSize = fileSize;
+        this.fileUrl = fileUrl;
+        this.thumbnailUrl = thumbnailUrl;
+        this.uploadedAt = uploadedAt;
+    }
+
+    public static Photo createPhoto(String fileName, Long fileSize, String fileUrl, String thumbnailUrl, Date uploadedAt) {
+        return Photo.builder()
+                .fileName(fileName)
+                .fileSize(fileSize)
+                .fileUrl(fileUrl)
+                .thumbnailUrl(thumbnailUrl)
+                .uploadedAt(uploadedAt)
+                .build();
+    }
 }
