@@ -2,6 +2,7 @@ package com.squarecross.photoalbum.service;
 
 import com.squarecross.photoalbum.domain.Album;
 import com.squarecross.photoalbum.repository.AlbumRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,15 +24,14 @@ class AlbumServiceTest {
 
 
     @Test
-    @DisplayName("앨범 생성 테스트")
-    void createAlbum() {
+    @DisplayName("앨범 저장 테스트")
+    void saveAlbum() {
         // given
         Album album = Album.createAlbum("testAlbum");
         em.persist(album);
 
         //when
         Album findAlbum = albumRepository.findByName("testAlbum").get(0);
-
 
         // then
         assertNotNull(album.getId());
@@ -55,6 +57,19 @@ class AlbumServiceTest {
     }
 
     @Test
+    @DisplayName("이름으로 앨범 찾기 테스트")
     void findAlbumsById() {
+        // given
+        Album album1 = Album.createAlbum("testAlbum1");
+        Album album2 = Album.createAlbum("testAlbum2");
+        em.persist(album1);
+        em.persist(album2);
+
+        // when
+        List<Album> albums = albumService.findAlbumsByName("testAlbum1");
+
+        // then
+        assertEquals(1, albums.size());
+        assertEquals("testAlbum1", albums.get(0).getName());
     }
 }
