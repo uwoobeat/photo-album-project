@@ -37,6 +37,14 @@ public class Album {
         this.name = name;
     }
 
+    @Builder(builderMethodName = "dtoBuilder")
+    public Album(Long id, String name, Date createdAt, int photoCount) {
+        this.id = id;
+        this.name = name;
+        this.createdAt = createdAt;
+        this.photoCount = photoCount;
+    }
+
     public static Album createAlbum(String name) {
         return Album.builder()
                 .name(name)
