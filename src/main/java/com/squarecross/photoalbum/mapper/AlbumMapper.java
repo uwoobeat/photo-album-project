@@ -5,7 +5,7 @@ import com.squarecross.photoalbum.dto.AlbumDto;
 
 public class AlbumMapper {
 
-    public Album toEntity(AlbumDto albumDto) {
+    public static Album toEntity(AlbumDto albumDto) {
         return Album.dtoBuilder()
                 .id(albumDto.getId())
                 .name(albumDto.getName())
@@ -14,7 +14,7 @@ public class AlbumMapper {
                 .build();
     }
 
-    public AlbumDto toDto(Album album) {
+    public static AlbumDto toDto(Album album) {
         return AlbumDto.builder()
                 .id(album.getId())
                 .name(album.getName())
