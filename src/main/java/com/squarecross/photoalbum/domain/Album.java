@@ -29,7 +29,7 @@ public class Album {
     @Column(name = "created_at", unique = false, nullable = true)
     @CreationTimestamp
     private Date createdAt;
-
+    @Transient
     private int photoCount = 0;
 
     @Builder
