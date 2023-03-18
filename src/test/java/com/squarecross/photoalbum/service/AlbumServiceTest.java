@@ -1,6 +1,7 @@
 package com.squarecross.photoalbum.service;
 
 import com.squarecross.photoalbum.domain.Album;
+import com.squarecross.photoalbum.dto.AlbumDto;
 import com.squarecross.photoalbum.repository.AlbumRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -58,18 +59,20 @@ class AlbumServiceTest {
 
     @Test
     @DisplayName("이름으로 앨범 찾기 테스트")
-    void findAlbumsById() {
+    void getAlbumsByName() {
         // given
         Album album1 = Album.createAlbum("testAlbum1");
         Album album2 = Album.createAlbum("testAlbum2");
+        Album album3 = Album.createAlbum("testAlbum3");
         em.persist(album1);
         em.persist(album2);
+        em.persist(album3);
 
         // when
-        List<Album> albums = albumService.findAlbumsByName("testAlbum1");
+        List<AlbumDto> albums = albumService.getAlbumsByName("testAlbum2");
 
         // then
         assertEquals(1, albums.size());
-        assertEquals("testAlbum1", albums.get(0).getName());
+        assertEquals("testAlbum2", albums.get(0).getName());
     }
 }
