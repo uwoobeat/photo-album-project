@@ -36,6 +36,10 @@ public class Photo {
     @Column(name = "uploaded_at", unique = false, nullable = true)
     private Date uploadedAt;
 
+    public void setAlbum(Album album) {
+        this.album = album;
+    }
+
     @Builder
     public Photo(String fileName, Long fileSize, String fileUrl, String thumbnailUrl, Date uploadedAt) {
         this.fileName = fileName;
