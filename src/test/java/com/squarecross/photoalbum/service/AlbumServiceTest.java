@@ -58,6 +58,22 @@ class AlbumServiceTest {
     }
 
     @Test
+    @DisplayName("앨범 아이디로 앨범 찾기 테스트")
+    void getAlbumById() {
+        // given
+        Album album1 = Album.createAlbum("testAlbum1");
+        Album album2 = Album.createAlbum("testAlbum2");
+        em.persist(album1);
+        em.persist(album2);
+
+        // when
+        AlbumDto album = albumService.getAlbumById(album2.getId());
+
+        // then
+        assertEquals("testAlbum2", album.getName());
+    }
+
+    @Test
     @DisplayName("이름으로 앨범 찾기 테스트")
     void getAlbumsByName() {
         // given
