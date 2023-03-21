@@ -34,6 +34,12 @@ public class AlbumService {
     }
 
     @Transactional(readOnly = true)
+    public AlbumDto getAlbumById(Long id) {
+        Album album = albumRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 앨범이 없습니다."));
+        return AlbumMapper.toDto(album);
+    }
+
+    @Transactional(readOnly = true)
     public List<AlbumDto> getAlbumsByName(String name) {
         List<Album> albums = albumRepository.findByName(name);
         return albums.stream()
