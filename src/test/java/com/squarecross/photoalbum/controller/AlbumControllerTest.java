@@ -18,5 +18,5 @@ public class AlbumControllerTest {
     private TestRestTemplate restTemplate;
 
     @Autowired
-    private AlbumControllerTest albumController;
+    private AlbumController albumController;
 }
