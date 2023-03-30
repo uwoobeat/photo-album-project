@@ -14,7 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AlbumController {
     private final AlbumService albumService;
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public AlbumController(AlbumService albumService) {
+        this.albumService = albumService;
+    }
+
+    @GetMapping(value = "/{id}")
     public ResponseEntity<AlbumDto> getAlbumById(@PathVariable final Long id) {
         return ResponseEntity.ok(albumService.getAlbumById(id));
     }
