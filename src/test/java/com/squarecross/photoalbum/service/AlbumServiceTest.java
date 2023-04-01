@@ -25,8 +25,8 @@ class AlbumServiceTest {
 
 
     @Test
-    @DisplayName("앨범 저장 테스트")
-    void saveAlbum() {
+    @DisplayName("앨범 생성 테스트")
+    void createAlbum() {
         // given
         Album album = Album.createAlbum("testAlbum");
         em.persist(album);
