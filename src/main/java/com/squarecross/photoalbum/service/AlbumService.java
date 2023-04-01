@@ -7,6 +7,10 @@ import com.squarecross.photoalbum.repository.AlbumRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,9 +23,10 @@ public class AlbumService {
         this.albumRepository = albumRepository;
     }
 
-    public AlbumDto saveAlbum(AlbumDto albumDto) {
+    public AlbumDto createAlbum(AlbumDto albumDto) throws IOException {
         Album album = AlbumMapper.toEntity(albumDto);
         Album saveAlbum = albumRepository.save(album);
+        createAlbumDirectories(saveAlbum);
         return AlbumMapper.toDto(saveAlbum);
     }
 
@@ -45,5 +50,10 @@ public class AlbumService {
         return albums.stream()
                 .map(AlbumMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    public void createAlbumDirectories(Album album) throws IOException {
+        Files.createDirectories(Paths.get(Constants.PATH_PREFIX + "/photos/" + album.getId()));
+        Files.createDirectories((Paths.get(Constants.PATH_PREFIX + "/thumbnails/" + album.getId())));
     }
 }
