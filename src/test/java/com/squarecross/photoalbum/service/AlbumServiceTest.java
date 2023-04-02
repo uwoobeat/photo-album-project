@@ -134,4 +134,25 @@ class AlbumServiceTest {
         assertEquals("testAlbum1", albums.get(1).getName());
         assertEquals("testAlbum3", albums.get(2).getName());
     }
+
+    @Test
+    @DisplayName("앨범 목록 이름으로 정렬하기 테스트")
+    void getAlbumListByName() {
+        // given
+        Album album1 = Album.createAlbum("testAlbum1");
+        Album album2 = Album.createAlbum("testAlbum2");
+        Album album3 = Album.createAlbum("testAlbum3");
+        em.persist(album2);
+        em.persist(album1);
+        em.persist(album3);
+
+        // when
+        List<AlbumDto> albums = albumService.getAlbumList("byName", "testAlbum");
+
+        // then
+        assertEquals(3, albums.size());
+        assertEquals("testAlbum1", albums.get(0).getName());
+        assertEquals("testAlbum2", albums.get(1).getName());
+        assertEquals("testAlbum3", albums.get(2).getName());
+    }
 }
