@@ -3,7 +3,6 @@ package com.squarecross.photoalbum.service;
 import com.squarecross.photoalbum.domain.Album;
 import com.squarecross.photoalbum.dto.AlbumDto;
 import com.squarecross.photoalbum.repository.AlbumRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +41,7 @@ class AlbumServiceTest {
     }
 
     @Test
-    @DisplayName("전체 앨범 가져오기 테스트")
+    @DisplayName("앨범 목록 모두 검색 테스트")
     void getAllAlbums() {
         // given
         Album album1 = Album.createAlbum("testAlbum1");
@@ -51,7 +50,7 @@ class AlbumServiceTest {
         em.persist(album2);
 
         // when
-        int albumCount = albumService.getAllAlbums().size();
+        int albumCount = albumService.getAlbumList("byName", "testAlbum").size();
 
         // then
         assertEquals(2, albumCount);
