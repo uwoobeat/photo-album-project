@@ -57,7 +57,7 @@ class AlbumServiceTest {
     }
 
     @Test
-    @DisplayName("앨범 아이디로 앨범 찾기 테스트")
+    @DisplayName("앨범 아이디로 앨범 검색 테스트")
     void getAlbumById() {
         // given
         Album album1 = Album.createAlbum("testAlbum1");
@@ -73,7 +73,7 @@ class AlbumServiceTest {
     }
 
     @Test
-    @DisplayName("이름으로 앨범 찾기 테스트")
+    @DisplayName("이름으로 앨범 검색 테스트")
     void getAlbumsByName() {
         // given
         Album album1 = Album.createAlbum("testAlbum1");
