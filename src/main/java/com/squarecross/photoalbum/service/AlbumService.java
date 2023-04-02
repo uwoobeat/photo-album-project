@@ -7,7 +7,6 @@ import com.squarecross.photoalbum.repository.AlbumRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -31,8 +30,15 @@ public class AlbumService {
     }
 
     @Transactional(readOnly = true)
-    public List<AlbumDto> getAllAlbums() {
-        List<Album> albums = albumRepository.findAll();
+    public List<AlbumDto> getAlbumList(String sort, String keyword) {
+        List<Album> albums;
+        if (sort.equals("byDate")) {
+            albums = albumRepository.findByNameContainingOrderByCreatedAtDesc(keyword);
+        } else if (sort.equals("byName")) {
+            albums = albumRepository.findByNameContainingOrderByNameAsc(keyword);
+        } else {
+            throw new IllegalArgumentException("잘못된 정렬 방식입니다.");
+        }
         return albums.stream()
                 .map(AlbumMapper::toDto)
                 .collect(Collectors.toList());
