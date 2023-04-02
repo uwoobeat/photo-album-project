@@ -90,4 +90,27 @@ class AlbumServiceTest {
         assertEquals(1, albums.size());
         assertEquals("testAlbum2", albums.get(0).getName());
     }
+
+    @Test
+    @DisplayName("앨범 목록 검색 테스트")
+    void getAlbumList() {
+        // given
+        Album album1 = Album.createAlbum("testAlbum1");
+        Album album2 = Album.createAlbum("testAlbum2");
+        Album album3 = Album.createAlbum("testAlbum3");
+        Album album4 = Album.createAlbum("ignoredAlbum");
+        em.persist(album1);
+        em.persist(album2);
+        em.persist(album3);
+        em.persist(album4);
+
+        // when
+        List<AlbumDto> albums = albumService.getAlbumList("byName", "testAlbum");
+
+        // then
+        assertEquals(3, albums.size());
+        assertEquals("testAlbum1", albums.get(0).getName());
+        assertEquals("testAlbum2", albums.get(1).getName());
+        assertEquals("testAlbum3", albums.get(2).getName());
+    }
 }
