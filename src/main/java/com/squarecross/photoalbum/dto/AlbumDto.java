@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.*;
 import java.util.Date;
+import java.util.List;
 
 @Builder
 @Getter
@@ -21,4 +22,5 @@ public class AlbumDto {
     private Date createdAt;
     @Size(min = 0)
     private int photoCount;
+    private List<String> thumbnailUrls;
 }
