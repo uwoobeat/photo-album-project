@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/albums")
@@ -27,4 +28,9 @@ public class AlbumController {
         return ResponseEntity.ok(albumService.createAlbum(albumDto));
     }
 
+    @GetMapping(value = "")
+    public ResponseEntity<List<AlbumDto>> getAlbumList(@RequestParam(value = "sort", required = false, defaultValue = "byDate") final String sort,
+                                                       @RequestParam(value = "keyword", required = false, defaultValue = "") final String keyword) {
+        return ResponseEntity.ok(albumService.getAlbumList(sort, keyword));
+    }
 }
