@@ -10,7 +10,11 @@ import java.util.List;
 public interface AlbumRepository extends JpaRepository<Album, Long> {
     List<Album> findByName(String name);
 
+    List<Album> findByNameContainingOrderByCreatedAtAsc(String keyword);
+
     List<Album> findByNameContainingOrderByCreatedAtDesc(String keyword);
 
     List<Album> findByNameContainingOrderByNameAsc(String keyword);
+
+    List<Album> findByNameContainingOrderByNameDesc(String keyword);
 }
