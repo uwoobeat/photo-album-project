@@ -50,7 +50,7 @@ class AlbumServiceTest {
         em.persist(album2);
 
         // when
-        int albumCount = albumService.getAlbumList("byName", "testAlbum").size();
+        int albumCount = albumService.getAlbumList("byName", "testAlbum", "asc").size();
 
         // then
         assertEquals(2, albumCount);
@@ -105,7 +105,7 @@ class AlbumServiceTest {
         em.persist(album4);
 
         // when
-        List<AlbumDto> albums = albumService.getAlbumList("byName", "testAlbum");
+        List<AlbumDto> albums = albumService.getAlbumList("byName", "testAlbum", "asc");
 
         // then
         assertEquals(3, albums.size());
@@ -115,7 +115,7 @@ class AlbumServiceTest {
     }
 
     @Test
-    @DisplayName("앨범 목록 생성일로 정렬하기 테스트")
+    @DisplayName("앨범 목록 생성일로 내림차순 정렬하기 테스트")
     void getAlbumListByDate() {
         // given
         Album album1 = Album.createAlbum("testAlbum1");
@@ -126,17 +126,17 @@ class AlbumServiceTest {
         em.persist(album3);
 
         // when
-        List<AlbumDto> albums = albumService.getAlbumList("byDate", "testAlbum");
+        List<AlbumDto> albums = albumService.getAlbumList("byDate", "testAlbum", "desc");
 
         // then
         assertEquals(3, albums.size());
-        assertEquals("testAlbum2", albums.get(0).getName());
+        assertEquals("testAlbum3", albums.get(0).getName());
         assertEquals("testAlbum1", albums.get(1).getName());
-        assertEquals("testAlbum3", albums.get(2).getName());
+        assertEquals("testAlbum2", albums.get(2).getName());
     }
 
     @Test
-    @DisplayName("앨범 목록 이름으로 정렬하기 테스트")
+    @DisplayName("앨범 목록 이름으로 오름차순 정렬하기 테스트")
     void getAlbumListByName() {
         // given
         Album album1 = Album.createAlbum("testAlbum1");
@@ -147,7 +147,7 @@ class AlbumServiceTest {
         em.persist(album3);
 
         // when
-        List<AlbumDto> albums = albumService.getAlbumList("byName", "testAlbum");
+        List<AlbumDto> albums = albumService.getAlbumList("byName", "testAlbum", "asc");
 
         // then
         assertEquals(3, albums.size());
