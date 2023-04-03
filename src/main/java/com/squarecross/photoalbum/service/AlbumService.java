@@ -30,12 +30,20 @@ public class AlbumService {
     }
 
     @Transactional(readOnly = true)
-    public List<AlbumDto> getAlbumList(String sort, String keyword) {
+    public List<AlbumDto> getAlbumList(String sort, String keyword, String orderBy) {
         List<Album> albums;
-        if (sort.equals("byDate")) {
-            albums = albumRepository.findByNameContainingOrderByCreatedAtDesc(keyword);
-        } else if (sort.equals("byName")) {
-            albums = albumRepository.findByNameContainingOrderByNameAsc(keyword);
+        if ("byDate".equals(sort)) {
+            if ("asc".equalsIgnoreCase(orderBy)) {
+                albums = albumRepository.findByNameContainingOrderByCreatedAtAsc(keyword);
+            } else {
+                albums = albumRepository.findByNameContainingOrderByCreatedAtDesc(keyword);
+            }
+        } else if ("byName".equals(sort)) {
+            if ("asc".equalsIgnoreCase(orderBy)) {
+                albums = albumRepository.findByNameContainingOrderByNameAsc(keyword);
+            } else {
+                albums = albumRepository.findByNameContainingOrderByNameDesc(keyword);
+            }
         } else {
             throw new IllegalArgumentException("잘못된 정렬 방식입니다.");
         }
