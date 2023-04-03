@@ -30,7 +30,8 @@ public class AlbumController {
 
     @GetMapping(value = "")
     public ResponseEntity<List<AlbumDto>> getAlbumList(@RequestParam(value = "sort", required = false, defaultValue = "byDate") final String sort,
-                                                       @RequestParam(value = "keyword", required = false, defaultValue = "") final String keyword) {
-        return ResponseEntity.ok(albumService.getAlbumList(sort, keyword));
+                                                       @RequestParam(value = "keyword", required = false, defaultValue = "") final String keyword,
+                                                       @RequestParam(value = "orderBy", required = false, defaultValue = "desc") final String orderBy) {
+        return ResponseEntity.ok(albumService.getAlbumList(sort, keyword, orderBy));
     }
 }
