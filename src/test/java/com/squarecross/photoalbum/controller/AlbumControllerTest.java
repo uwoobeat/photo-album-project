@@ -69,4 +69,23 @@ public class AlbumControllerTest {
         assertEquals(200, responseEntity.getStatusCodeValue());
         assertEquals(3, responseEntity.getBody().size());
     }
+
+    @Test
+    @DisplayName("앨범 ID로 앨범 GET 테스트")
+    void getAlbumById() {
+        // given
+        Album album = Album.createAlbum("testAlbum");
+        AlbumDto albumDto = AlbumMapper.toDto(album);
+        ResponseEntity<AlbumDto> postResponseEntity = restTemplate.postForEntity("/api/v1/albums", albumDto, AlbumDto.class);
+
+        // when
+        ResponseEntity<AlbumDto> responseEntity = restTemplate.getForEntity("/api/v1/albums/" + postResponseEntity.getBody().getId(), AlbumDto.class);
+
+        // then
+        assertEquals(200, responseEntity.getStatusCodeValue());
+        assertEquals("testAlbum", responseEntity.getBody().getName());
+        assertNotNull(responseEntity.getBody().getId());
+        assertNotNull(responseEntity.getBody().getCreatedAt());
+        assertEquals(0, responseEntity.getBody().getPhotoCount());
+    }
 }
