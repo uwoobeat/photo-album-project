@@ -13,6 +13,8 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
@@ -46,4 +48,25 @@ public class AlbumControllerTest {
         assertEquals(0, responseEntity.getBody().getPhotoCount());
     }
 
+    @Test
+    @DisplayName("전체 앨범 목록 GET 테스트")
+    void getAlbumList() {
+        // given
+        Album album1 = Album.createAlbum("testAlbum1");
+        Album album2 = Album.createAlbum("testAlbum2");
+        Album album3 = Album.createAlbum("testAlbum3");
+        AlbumDto albumDto1 = AlbumMapper.toDto(album1);
+        AlbumDto albumDto2 = AlbumMapper.toDto(album2);
+        AlbumDto albumDto3 = AlbumMapper.toDto(album3);
+        restTemplate.postForEntity("/api/v1/albums", albumDto2, AlbumDto.class);
+        restTemplate.postForEntity("/api/v1/albums", albumDto1, AlbumDto.class);
+        restTemplate.postForEntity("/api/v1/albums", albumDto3, AlbumDto.class);
+
+        // when
+        ResponseEntity<List> responseEntity = restTemplate.getForEntity("/api/v1/albums", List.class);
+
+        // then
+        assertEquals(200, responseEntity.getStatusCodeValue());
+        assertEquals(3, responseEntity.getBody().size());
+    }
 }
