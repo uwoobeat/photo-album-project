@@ -67,11 +67,15 @@ public class AlbumControllerTest {
         restTemplate.postForEntity("/api/v1/albums", albumDto3, AlbumDto.class);
 
         // when
-        ResponseEntity<List> responseEntity = restTemplate.getForEntity("/api/v1/albums", List.class);
+        ResponseEntity<List<AlbumDto>> responseEntity = restTemplate.exchange("/api/v1/albums", HttpMethod.GET, null, new ParameterizedTypeReference<List<AlbumDto>>() {
+        });
 
         // then
         assertEquals(200, responseEntity.getStatusCodeValue());
         assertEquals(3, responseEntity.getBody().size());
+        assertEquals("testAlbum2", responseEntity.getBody().get(0).getName());
+        assertEquals("testAlbum1", responseEntity.getBody().get(1).getName());
+        assertEquals("testAlbum3", responseEntity.getBody().get(2).getName());
     }
 
     @Test
