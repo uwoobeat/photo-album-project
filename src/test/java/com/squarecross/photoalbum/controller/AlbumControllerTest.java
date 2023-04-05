@@ -10,9 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -69,6 +73,41 @@ public class AlbumControllerTest {
         assertEquals(200, responseEntity.getStatusCodeValue());
         assertEquals(3, responseEntity.getBody().size());
     }
+
+    @Test
+    @DisplayName("sort, keyword, orderBy로 앨범 검색 및 결과 정렬 GET 테스트")
+    void getSortedAlbumList() {
+        // given
+
+        List<Album> albumList = new ArrayList<Album>();
+        Album ignoredAlbum = Album.createAlbum("ignoredAlbum");
+        albumList.add(ignoredAlbum);
+
+        for (int i = 1; i <= 4; i++) {
+            Album album = Album.createAlbum("testAlbum" + i);
+            albumList.add(album);
+        }
+
+        Collections.shuffle(albumList);
+
+        for (Album album : albumList) {
+            AlbumDto albumDto = AlbumMapper.toDto(album);
+            restTemplate.postForEntity("/api/v1/albums", albumDto, AlbumDto.class);
+        }
+
+        // when
+        ResponseEntity<List<AlbumDto>> responseEntity = restTemplate.exchange("/api/v1/albums?sort=byName&keyword=testAlbum&orderBy=desc", HttpMethod.GET, null, new ParameterizedTypeReference<List<AlbumDto>>() {
+        });
+
+        // then
+        assertEquals(200, responseEntity.getStatusCodeValue());
+        assertEquals(4, responseEntity.getBody().size());
+        assertEquals("testAlbum4", responseEntity.getBody().get(0).getName());
+        assertEquals("testAlbum3", responseEntity.getBody().get(1).getName());
+        assertEquals("testAlbum2", responseEntity.getBody().get(2).getName());
+        assertEquals("testAlbum1", responseEntity.getBody().get(3).getName());
+    }
+
 
     @Test
     @DisplayName("앨범 ID로 앨범 GET 테스트")
