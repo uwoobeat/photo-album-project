@@ -59,4 +59,8 @@ public class Album {
                 .name(name)
                 .build();
     }
+
+    public void updateAlbumName(String name) {
+        this.name = name;
+    }
 }
