@@ -4,8 +4,8 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -28,7 +28,7 @@ public class Album {
 
     @Column(name = "created_at", unique = false, nullable = true)
     @CreationTimestamp
-    private Date createdAt;
+    private LocalDateTime createdAt;
     @Transient
     private int photoCount = 0;
 
@@ -47,7 +47,7 @@ public class Album {
     }
 
     @Builder(builderMethodName = "dtoBuilder")
-    public Album(Long id, String name, Date createdAt, int photoCount) {
+    public Album(Long id, String name, LocalDateTime createdAt, int photoCount) {
         this.id = id;
         this.name = name;
         this.createdAt = createdAt;

@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Builder
@@ -19,7 +19,7 @@ public class AlbumDto {
     @NotBlank
     private String name;
     @PastOrPresent
-    private Date createdAt;
+    private LocalDateTime createdAt;
     @Size(min = 0)
     private int photoCount;
     private List<String> thumbnailUrls;
