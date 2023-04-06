@@ -34,4 +34,9 @@ public class AlbumController {
                                                        @RequestParam(value = "orderBy", required = false, defaultValue = "desc") final String orderBy) {
         return ResponseEntity.ok(albumService.getAlbumList(sort, keyword, orderBy));
     }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<AlbumDto> updateAlbumName(@PathVariable final Long id, @RequestBody final AlbumDto albumDto) {
+        return ResponseEntity.ok(albumService.updateAlbumName(id, albumDto));
+    }
 }
