@@ -155,4 +155,19 @@ class AlbumServiceTest {
         assertEquals("testAlbum2", albums.get(1).getName());
         assertEquals("testAlbum3", albums.get(2).getName());
     }
+
+    @Test
+    @DisplayName("앨범 이름 변경 테스트")
+    void updateAlbumName() {
+        // given
+        Album album = Album.createAlbum("testAlbum");
+        em.persist(album);
+
+        // when
+        AlbumDto updatedAlbumDto = new AlbumDto(album.getId(), "updatedAlbumName", album.getCreatedAt(), album.getPhotoCount(), null);
+        albumService.updateAlbumName(album.getId(), updatedAlbumDto);
+
+        // then
+        assertEquals("updatedAlbumName", album.getName());
+    }
 }
