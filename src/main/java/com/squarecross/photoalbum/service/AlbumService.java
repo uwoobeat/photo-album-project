@@ -70,4 +70,10 @@ public class AlbumService {
         Files.createDirectories(Paths.get(Constants.PATH_PREFIX + "/photos/" + album.getId()));
         Files.createDirectories((Paths.get(Constants.PATH_PREFIX + "/thumbnails/" + album.getId())));
     }
+
+    public AlbumDto updateAlbumName(Long id, AlbumDto albumDto) {
+        Album album = albumRepository.findById(id).orElseThrow(() -> new NoSuchElementException("존재하지 않는 앨범입니다."));
+        album.updateAlbumName(albumDto.getName());
+        return AlbumMapper.toDto(album);
+    }
 }
