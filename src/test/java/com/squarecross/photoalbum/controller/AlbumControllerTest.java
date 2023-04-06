@@ -3,6 +3,8 @@ package com.squarecross.photoalbum.controller;
 import com.squarecross.photoalbum.domain.Album;
 import com.squarecross.photoalbum.dto.AlbumDto;
 import com.squarecross.photoalbum.mapper.AlbumMapper;
+import com.squarecross.photoalbum.repository.AlbumRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +15,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
@@ -33,6 +36,14 @@ public class AlbumControllerTest {
 
     @Autowired
     private AlbumController albumController;
+
+    @Autowired
+    private AlbumRepository albumRepository;
+
+    @AfterEach
+    void tearDown() {
+        albumRepository.deleteAll();
+    }
 
     @Test
     @DisplayName("앨범 생성 POST 테스트")
