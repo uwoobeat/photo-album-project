@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,17 +33,18 @@ public class AlbumService {
 
     @Transactional(readOnly = true)
     public List<AlbumDto> getAlbumList(String sort, String keyword, String orderBy) {
-        List<Album> albums;
+        List<Album> albums = new ArrayList<Album>();
+
         if ("byDate".equals(sort)) {
             if ("asc".equalsIgnoreCase(orderBy)) {
                 albums = albumRepository.findByNameContainingOrderByCreatedAtAsc(keyword);
-            } else {
+            } else if ("desc".equalsIgnoreCase(orderBy)) {
                 albums = albumRepository.findByNameContainingOrderByCreatedAtDesc(keyword);
             }
         } else if ("byName".equals(sort)) {
             if ("asc".equalsIgnoreCase(orderBy)) {
                 albums = albumRepository.findByNameContainingOrderByNameAsc(keyword);
-            } else {
+            } else if ("desc".equalsIgnoreCase(orderBy)){
                 albums = albumRepository.findByNameContainingOrderByNameDesc(keyword);
             }
         } else {
