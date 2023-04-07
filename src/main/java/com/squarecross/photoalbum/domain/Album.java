@@ -26,8 +26,8 @@ public class Album {
     @Column(name = "album_name", unique = false, nullable = false)
     private String name;
 
-    @Column(name = "created_at", unique = false, nullable = true)
     @CreationTimestamp
+    @Column(name = "created_at", columnDefinition = "timestamp(6)", unique = false, nullable = true)
     private LocalDateTime createdAt;
     @Transient
     private int photoCount = 0;
