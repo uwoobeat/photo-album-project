@@ -14,11 +14,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AlbumDto {
-    @NotNull
     private Long id;
     @NotBlank
     private String name;
-    @PastOrPresent
     private LocalDateTime createdAt;
     @Size(min = 0)
     private int photoCount;
