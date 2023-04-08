@@ -157,6 +157,27 @@ class AlbumServiceTest {
     }
 
     @Test
+    @DisplayName("앨범 목록 이름으로 내림차순 정렬하기 테스트")
+    void getAlbumListByNameDesc() {
+        // given
+        Album album1 = Album.createAlbum("testAlbum1");
+        Album album2 = Album.createAlbum("testAlbum2");
+        Album album3 = Album.createAlbum("testAlbum3");
+        em.persist(album2);
+        em.persist(album1);
+        em.persist(album3);
+
+        // when
+        List<AlbumDto> albums = albumService.getAlbumList("byName", "testAlbum", "desc");
+
+        // then
+        assertEquals(3, albums.size());
+        assertEquals("testAlbum3", albums.get(0).getName());
+        assertEquals("testAlbum2", albums.get(1).getName());
+        assertEquals("testAlbum1", albums.get(2).getName());
+    }
+
+    @Test
     @DisplayName("앨범 이름 변경 테스트")
     void updateAlbumName() {
         // given
