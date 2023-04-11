@@ -79,4 +79,10 @@ public class AlbumService {
         album.updateAlbumName(albumDto.getName());
         return AlbumMapper.toDto(album);
     }
+
+    public void deleteAlbum(Long id) throws IOException {
+        Album album = albumRepository.findById(id).orElseThrow(() -> new NoSuchElementException("존재하지 않는 앨범입니다."));
+        albumRepository.delete(album);
+        deleteAlbumDirectories(album);
+    }
 }
