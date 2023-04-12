@@ -39,4 +39,14 @@ public class AlbumController {
     public ResponseEntity<AlbumDto> updateAlbumName(@PathVariable final Long id, @RequestBody final AlbumDto albumDto) {
         return ResponseEntity.ok(albumService.updateAlbumName(id, albumDto));
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteAlbum(@PathVariable final Long id) {
+        try{
+            albumService.deleteAlbum(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }
