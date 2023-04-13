@@ -142,4 +142,20 @@ public class AlbumControllerTest {
         assertNotNull(responseEntity.getBody().getCreatedAt());
         assertEquals(0, responseEntity.getBody().getPhotoCount());
     }
+
+    @Test
+    @DisplayName("앨범 ID로 앨범 DELETE 테스트")
+    void deleteAlbumById() {
+        // given
+        Album album = Album.createAlbum("testAlbum");
+        AlbumDto albumDto = AlbumMapper.toDto(album);
+        ResponseEntity<AlbumDto> postResponseEntity = restTemplate.postForEntity("/api/v1/albums", albumDto, AlbumDto.class);
+
+        // when
+        restTemplate.delete("/api/v1/albums/" + postResponseEntity.getBody().getId());
+
+        // then
+        ResponseEntity<AlbumDto> responseEntity = restTemplate.getForEntity("/api/v1/albums/" + postResponseEntity.getBody().getId(), AlbumDto.class);
+        assertEquals(400, responseEntity.getStatusCodeValue());
+    }
 }
