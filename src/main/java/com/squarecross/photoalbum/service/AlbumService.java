@@ -64,7 +64,7 @@ public class AlbumService {
 
     @Transactional(readOnly = true)
     public AlbumDto getAlbumById(Long id) {
-        Album album = albumRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 앨범이 없습니다."));
+        Album album = albumRepository.findById(id).orElseThrow(() -> new NoSuchElementException("id: " + id + "인 앨범이 없습니다."));
         return AlbumMapper.toDto(album);
     }
 
