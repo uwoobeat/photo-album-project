@@ -45,7 +45,7 @@ public class AlbumController {
         try{
             albumService.deleteAlbum(id);
             return ResponseEntity.ok().build();
-        } catch (Exception e) {
+        } catch (IOException e) {
             return ResponseEntity.badRequest().build();
         }
     }
