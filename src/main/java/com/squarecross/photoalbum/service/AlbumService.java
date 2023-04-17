@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional
@@ -82,8 +83,21 @@ public class AlbumService {
     }
 
     public void deleteAlbumDirectories(Album album) throws IOException {
-        Files.deleteIfExists(Paths.get(Constants.PATH_PREFIX + "/photos/" + album.getId()));
-        Files.deleteIfExists(Paths.get(Constants.PATH_PREFIX + "/thumbnails/" + album.getId()));
+        String originalPath = Constants.PATH_PREFIX + "/original/" + album.getId();
+        String thumbPath = Constants.PATH_PREFIX + "/thumb/" + album.getId();
+
+        Stream.concat(Files.walk(Paths.get(originalPath)), Files.walk(Paths.get(thumbPath)))
+                .filter(Files::isRegularFile)
+                .forEach(path -> {
+                    try {
+                        Files.deleteIfExists(path);
+                    } catch (IOException e) {
+                        log.error("파일 삭제 실패: " + path, e);
+                    }
+                });
+
+        Files.deleteIfExists(Paths.get(originalPath));
+        Files.deleteIfExists(Paths.get(thumbPath));
     }
 
     public AlbumDto updateAlbumName(Long id, AlbumDto albumDto) {
