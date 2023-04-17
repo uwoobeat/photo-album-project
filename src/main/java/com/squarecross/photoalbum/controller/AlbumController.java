@@ -2,7 +2,6 @@ package com.squarecross.photoalbum.controller;
 
 import com.squarecross.photoalbum.dto.AlbumDto;
 import com.squarecross.photoalbum.service.AlbumService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +23,12 @@ public class AlbumController {
     }
 
     @PostMapping(value = "")
-    public ResponseEntity<AlbumDto> createAlbum(@RequestBody final AlbumDto albumDto) throws IOException {
-        return ResponseEntity.ok(albumService.createAlbum(albumDto));
+    public ResponseEntity<AlbumDto> createAlbum(@RequestBody final AlbumDto albumDto) {
+        try {
+            return ResponseEntity.ok(albumService.createAlbum(albumDto));
+        } catch (IOException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping(value = "")
