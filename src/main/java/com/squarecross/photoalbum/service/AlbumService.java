@@ -4,6 +4,7 @@ import com.squarecross.photoalbum.domain.Album;
 import com.squarecross.photoalbum.dto.AlbumDto;
 import com.squarecross.photoalbum.mapper.AlbumMapper;
 import com.squarecross.photoalbum.repository.AlbumRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@Slf4j
 public class AlbumService {
     private final AlbumRepository albumRepository;
 
@@ -27,13 +29,18 @@ public class AlbumService {
     public AlbumDto createAlbum(AlbumDto albumDto) throws IOException {
         Album album = AlbumMapper.toEntity(albumDto);
         Album saveAlbum = albumRepository.save(album);
-        createAlbumDirectories(saveAlbum);
+        try {
+            createAlbumDirectories(album);
+        } catch (IOException e) {
+            log.error(album + "앨범 디렉토리 생성 실패", e);
+            throw new IOException("앨범 디렉토리 생성 실패");
+        }
         return AlbumMapper.toDto(saveAlbum);
     }
 
     @Transactional(readOnly = true)
     public List<AlbumDto> getAlbumList(String sort, String keyword, String orderBy) {
-        List<Album> albums = new ArrayList<Album>();
+        List<Album> albums = new ArrayList<>();
 
         if ("byDate".equals(sort)) {
             if ("asc".equalsIgnoreCase(orderBy)) {
