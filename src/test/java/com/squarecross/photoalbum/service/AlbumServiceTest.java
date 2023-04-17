@@ -10,8 +10,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -190,5 +192,23 @@ class AlbumServiceTest {
 
         // then
         assertEquals("updatedAlbumName", album.getName());
+    }
+
+    @Test
+    @DisplayName("앨범 삭제 테스트")
+    void deleteAlbum() {
+        // given
+        AlbumDto testAlbumDto = AlbumDto.builder()
+                .name("testAlbum")
+                .build();
+        AlbumDto responseAlbumDto = assertDoesNotThrow(() -> albumService.createAlbum(testAlbumDto));
+
+        // when
+        assertDoesNotThrow(() -> albumService.deleteAlbum(responseAlbumDto.getId()));
+
+        // then
+        assertThrows(NoSuchElementException.class, () -> albumService.getAlbumById(responseAlbumDto.getId()));
+        assertFalse(Files.exists(Paths.get(Constants.PATH_PREFIX + "/original/" + responseAlbumDto.getId())));
+        assertFalse(Files.exists(Paths.get(Constants.PATH_PREFIX + "/thumb/" + responseAlbumDto.getId())));
     }
 }
