@@ -27,17 +27,17 @@ class AlbumServiceTest {
     @DisplayName("앨범 생성 테스트")
     void createAlbum() {
         // given
-        Album album = Album.createAlbum("testAlbum");
-        em.persist(album);
+        AlbumDto requestAlbumDto = AlbumDto.builder()
+                .name("testAlbum")
+                .build();
 
         //when
-        Album findAlbum = albumRepository.findByName("testAlbum").get(0);
+        AlbumDto responseAlbumDto = assertDoesNotThrow(() -> albumService.createAlbum(requestAlbumDto));
 
         // then
-        assertNotNull(album.getId());
-        assertEquals("testAlbum", album.getName());
-        assertEquals(0, album.getPhotos().size());
-        assertNotNull(album.getCreatedAt());
+        assertEquals("testAlbum", responseAlbumDto.getName());
+        assertTrue(Files.exists(Paths.get(Constants.PATH_PREFIX + "/original/" + responseAlbumDto.getId())));
+        assertTrue(Files.exists(Paths.get(Constants.PATH_PREFIX + "/thumb/" + responseAlbumDto.getId())));
     }
 
     @Test
