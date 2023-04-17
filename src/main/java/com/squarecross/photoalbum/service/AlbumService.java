@@ -95,6 +95,11 @@ public class AlbumService {
     public void deleteAlbum(Long id) throws IOException {
         Album album = albumRepository.findById(id).orElseThrow(() -> new NoSuchElementException("존재하지 않는 앨범입니다."));
         albumRepository.delete(album);
-        deleteAlbumDirectories(album);
+        try {
+            deleteAlbumDirectories(album);
+        } catch (IOException e) {
+            log.error(album + "앨범 디렉토리 삭제 실패", e);
+            throw new IOException("앨범 디렉토리 삭제 실패");
+        }
     }
 }
