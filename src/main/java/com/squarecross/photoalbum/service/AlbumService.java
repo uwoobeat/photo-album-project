@@ -77,8 +77,8 @@ public class AlbumService {
     }
 
     public void createAlbumDirectories(Album album) throws IOException {
-        Files.createDirectories(Paths.get(Constants.PATH_PREFIX + "/photos/" + album.getId()));
-        Files.createDirectories((Paths.get(Constants.PATH_PREFIX + "/thumbnails/" + album.getId())));
+        Files.createDirectories(Paths.get(Constants.PATH_PREFIX + "/original/" + album.getId()));
+        Files.createDirectories((Paths.get(Constants.PATH_PREFIX + "/thumb/" + album.getId())));
     }
 
     public void deleteAlbumDirectories(Album album) throws IOException {
