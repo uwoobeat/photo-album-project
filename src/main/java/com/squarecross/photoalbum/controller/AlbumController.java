@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/v1/albums")
@@ -23,12 +24,8 @@ public class AlbumController {
     }
 
     @PostMapping(value = "")
-    public ResponseEntity<AlbumDto> createAlbum(@RequestBody final AlbumDto albumDto) {
-        try {
-            return ResponseEntity.ok(albumService.createAlbum(albumDto));
-        } catch (IOException e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<AlbumDto> createAlbum(@RequestBody final AlbumDto albumDto) throws IOException {
+        return ResponseEntity.ok(albumService.createAlbum(albumDto));
     }
 
     @GetMapping(value = "")
@@ -44,12 +41,23 @@ public class AlbumController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteAlbum(@PathVariable final Long id) {
-        try{
-            albumService.deleteAlbum(id);
-            return ResponseEntity.ok().build();
-        } catch (IOException e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<Void> deleteAlbum(@PathVariable final Long id) throws IOException {
+        albumService.deleteAlbum(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Void> handleIllegalArgumentException(IllegalArgumentException e) {
+        return ResponseEntity.badRequest().build();
+    }
+
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<Void> handleIOException(IOException e) {
+        return ResponseEntity.badRequest().build();
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<Void> handleNoSuchElementException(NoSuchElementException e) {
+        return ResponseEntity.notFound().build();
     }
 }
