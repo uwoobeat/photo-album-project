@@ -3,6 +3,7 @@ package com.squarecross.photoalbum.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -34,14 +35,14 @@ public class Photo {
     private String thumbnailUrl;
 
     @Column(name = "uploaded_at", unique = false, nullable = true)
-    private Date uploadedAt;
+    private LocalDateTime uploadedAt;
 
     public void setAlbum(Album album) {
         this.album = album;
     }
 
     @Builder
-    public Photo(String fileName, Long fileSize, String fileUrl, String thumbnailUrl, Date uploadedAt) {
+    public Photo(String fileName, Long fileSize, String fileUrl, String thumbnailUrl, LocalDateTime uploadedAt) {
         this.fileName = fileName;
         this.fileSize = fileSize;
         this.fileUrl = fileUrl;
