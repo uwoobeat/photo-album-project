@@ -123,6 +123,28 @@ public class AlbumControllerTest {
         assertEquals("testAlbum1", responseEntity.getBody().get(3).getName());
     }
 
+    @Test
+    @DisplayName("잘못된 인자로 앨범 검색 시 400 에러 발생 테스트")
+    void getAlbumListWithInvalidArgument() {
+        // given
+        Album album1 = Album.createAlbum("testAlbum1");
+        Album album2 = Album.createAlbum("testAlbum2");
+        Album album3 = Album.createAlbum("testAlbum3");
+        AlbumDto albumDto1 = AlbumMapper.toDto(album1);
+        AlbumDto albumDto2 = AlbumMapper.toDto(album2);
+        AlbumDto albumDto3 = AlbumMapper.toDto(album3);
+        restTemplate.postForEntity("/api/v1/albums", albumDto1, AlbumDto.class);
+        restTemplate.postForEntity("/api/v1/albums", albumDto2, AlbumDto.class);
+        restTemplate.postForEntity("/api/v1/albums", albumDto3, AlbumDto.class);
+
+        // when
+        ResponseEntity<Void> responseEntity = restTemplate.exchange("/api/v1/albums?sort=invalid&keyword=testAlbum&orderBy=invalid", HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+        });
+
+        // then
+        assertEquals(400, responseEntity.getStatusCodeValue());
+    }
+
 
     @Test
     @DisplayName("앨범 ID로 앨범 GET 테스트")
