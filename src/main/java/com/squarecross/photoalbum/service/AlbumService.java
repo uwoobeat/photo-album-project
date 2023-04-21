@@ -41,23 +41,31 @@ public class AlbumService {
 
     @Transactional(readOnly = true)
     public List<AlbumDto> getAlbumList(String sort, String keyword, String orderBy) {
-        List<Album> albums = new ArrayList<>();
+        List<Album> albums;
 
-        if ("byDate".equals(sort)) {
-            if ("asc".equalsIgnoreCase(orderBy)) {
-                albums = albumRepository.findByNameContainingOrderByCreatedAtAsc(keyword);
-            } else if ("desc".equalsIgnoreCase(orderBy)) {
-                albums = albumRepository.findByNameContainingOrderByCreatedAtDesc(keyword);
-            }
-        } else if ("byName".equals(sort)) {
-            if ("asc".equalsIgnoreCase(orderBy)) {
-                albums = albumRepository.findByNameContainingOrderByNameAsc(keyword);
-            } else if ("desc".equalsIgnoreCase(orderBy)){
-                albums = albumRepository.findByNameContainingOrderByNameDesc(keyword);
-            }
-        } else {
-            throw new IllegalArgumentException("잘못된 정렬 방식입니다.");
+        switch (sort) {
+            case "byDate":
+                if ("asc".equalsIgnoreCase(orderBy)) {
+                    albums = albumRepository.findByNameContainingOrderByCreatedAtAsc(keyword);
+                } else if ("desc".equalsIgnoreCase(orderBy)) {
+                    albums = albumRepository.findByNameContainingOrderByCreatedAtDesc(keyword);
+                } else {
+                    throw new IllegalArgumentException("잘못된 정렬 방식입니다.");
+                }
+                break;
+            case "byName":
+                if ("asc".equalsIgnoreCase(orderBy)) {
+                    albums = albumRepository.findByNameContainingOrderByNameAsc(keyword);
+                } else if ("desc".equalsIgnoreCase(orderBy)){
+                    albums = albumRepository.findByNameContainingOrderByNameDesc(keyword);
+                } else {
+                    throw new IllegalArgumentException("잘못된 정렬 방식입니다.");
+                }
+                break;
+            default:
+                throw new IllegalArgumentException("잘못된 정렬 방식입니다.");
         }
+
         return albums.stream()
                 .map(AlbumMapper::toDto)
                 .collect(Collectors.toList());
