@@ -50,7 +50,17 @@ public class Photo {
         this.uploadedAt = uploadedAt;
     }
 
-    public static Photo createPhoto(String fileName, Long fileSize, String fileUrl, String thumbnailUrl, Date uploadedAt) {
+    @Builder(builderMethodName = "dtoBuilder")
+    public Photo(Long id, String fileName, Long fileSize, String fileUrl, String thumbnailUrl, LocalDateTime uploadedAt) {
+        this.id = id;
+        this.fileName = fileName;
+        this.fileSize = fileSize;
+        this.fileUrl = fileUrl;
+        this.thumbnailUrl = thumbnailUrl;
+        this.uploadedAt = uploadedAt;
+    }
+
+    public static Photo createPhoto(String fileName, Long fileSize, String fileUrl, String thumbnailUrl, LocalDateTime uploadedAt) {
         return Photo.builder()
                 .fileName(fileName)
                 .fileSize(fileSize)
