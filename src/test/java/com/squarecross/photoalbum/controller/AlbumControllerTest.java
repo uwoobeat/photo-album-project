@@ -178,6 +178,6 @@ public class AlbumControllerTest {
 
         // then
         ResponseEntity<AlbumDto> responseEntity = restTemplate.getForEntity("/api/v1/albums/" + postResponseEntity.getBody().getId(), AlbumDto.class);
-        assertEquals(400, responseEntity.getStatusCodeValue());
+        assertEquals(404, responseEntity.getStatusCodeValue());
     }
 }
