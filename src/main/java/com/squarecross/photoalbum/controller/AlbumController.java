@@ -18,8 +18,8 @@ public class AlbumController {
         this.albumService = albumService;
     }
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<AlbumDto> getAlbumById(@PathVariable final Long id) {
+    @GetMapping(value = "/{albumId}")
+    public ResponseEntity<AlbumDto> getAlbumById(@PathVariable("albumId") final Long id) {
         return ResponseEntity.ok(albumService.getAlbumById(id));
     }
 
@@ -29,19 +29,21 @@ public class AlbumController {
     }
 
     @GetMapping(value = "")
-    public ResponseEntity<List<AlbumDto>> getAlbumList(@RequestParam(value = "sort", required = false, defaultValue = "byDate") final String sort,
-                                                       @RequestParam(value = "keyword", required = false, defaultValue = "") final String keyword,
-                                                       @RequestParam(value = "orderBy", required = false, defaultValue = "desc") final String orderBy) {
+    public ResponseEntity<List<AlbumDto>> getAlbumList(
+            @RequestParam(value = "sort", required = false, defaultValue = "byDate") final String sort,
+            @RequestParam(value = "keyword", required = false, defaultValue = "") final String keyword,
+            @RequestParam(value = "orderBy", required = false, defaultValue = "desc") final String orderBy
+    ) {
         return ResponseEntity.ok(albumService.getAlbumList(sort, keyword, orderBy));
     }
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<AlbumDto> updateAlbumName(@PathVariable final Long id, @RequestBody final AlbumDto albumDto) {
+    @PutMapping(value = "/{albumId}")
+    public ResponseEntity<AlbumDto> updateAlbumName(@PathVariable("albumId")  final Long id, @RequestBody final AlbumDto albumDto) {
         return ResponseEntity.ok(albumService.updateAlbumName(id, albumDto));
     }
 
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteAlbum(@PathVariable final Long id) throws IOException {
+    @DeleteMapping(value = "/{albumId}")
+    public ResponseEntity<Void> deleteAlbum(@PathVariable("albumId")  final Long id) throws IOException {
         albumService.deleteAlbum(id);
         return ResponseEntity.ok().build();
     }
