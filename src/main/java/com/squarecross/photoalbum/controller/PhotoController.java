@@ -16,6 +16,11 @@ public class PhotoController {
         this.photoService = photoService;
     }
 
+    @PostMapping(value = "")
+    public ResponseEntity<PhotoDto> createPhoto(@PathVariable("albumId") final Long id, @RequestBody final PhotoDto photoDto) {
+        return ResponseEntity.ok(photoService.createPhoto(id, photoDto));
+    }
+
     @GetMapping(value = "")
     public ResponseEntity<List<PhotoDto>> getPhotoList(
             @PathVariable("albumId") final Long id,
