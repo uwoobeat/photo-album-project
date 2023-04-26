@@ -3,20 +3,30 @@ package com.squarecross.photoalbum.service;
 import com.squarecross.photoalbum.domain.Photo;
 import com.squarecross.photoalbum.dto.PhotoDto;
 import com.squarecross.photoalbum.mapper.PhotoMapper;
+import com.squarecross.photoalbum.repository.AlbumRepository;
 import com.squarecross.photoalbum.repository.PhotoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class PhotoService {
     private final PhotoRepository photoRepository;
+    private final AlbumRepository albumRepository;
 
-    public PhotoService(PhotoRepository photoRepository) {
+    public PhotoService(PhotoRepository photoRepository, AlbumRepository albumRepository) {
         this.photoRepository = photoRepository;
+        this.albumRepository = albumRepository;
+    }
+
+    public PhotoDto createPhoto(Long id, PhotoDto photoDto) {
+        Photo photo = PhotoMapper.toEntity(photoDto);
+        photo.setAlbum(albumRepository.findById(id).orElseThrow(NoSuchElementException::new));
+        return PhotoMapper.toDto(photoRepository.save(photo));
     }
 
     public List<PhotoDto> getPhotoList(Long id, String sort, String keyword, String orderBy) {
