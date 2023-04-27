@@ -2,6 +2,7 @@ package com.squarecross.photoalbum.domain;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -35,7 +36,7 @@ public class Photo {
     @Column(name = "thumbnail_url", unique = false, nullable = true)
     private String thumbnailUrl;
 
-    @CreationTimestamp
+    @UpdateTimestamp
     @Column(name = "uploaded_at", unique = false, nullable = true)
     private LocalDateTime uploadedAt;
 
