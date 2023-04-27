@@ -35,18 +35,18 @@ public class PhotoService {
         switch (sort) {
             case "byDate":
                 if ("asc".equalsIgnoreCase(orderBy)) {
-                    photos = photoRepository.findByAlbumIdAndNameContainingOrderByCreatedAtAsc(id, keyword);
+                    photos = photoRepository.findByAlbumIdAndFileNameContainingOrderByUploadedAtAsc(id, keyword);
                 } else if ("desc".equalsIgnoreCase(orderBy)) {
-                    photos = photoRepository.findByAlbumIdAndNameContainingOrderByCreatedAtDesc(id, keyword);
+                    photos = photoRepository.findByAlbumIdAndFileNameContainingOrderByUploadedAtDesc(id, keyword);
                 } else {
                     throw new IllegalArgumentException("잘못된 정렬 방식입니다.");
                 }
                 break;
             case "byName":
                 if ("asc".equalsIgnoreCase(orderBy)) {
-                    photos = photoRepository.findByAlbumIdAndNameContainingOrderByNameAsc(id, keyword);
+                    photos = photoRepository.findByAlbumIdAndFileNameContainingOrderByFileNameAsc(id, keyword);
                 } else if ("desc".equalsIgnoreCase(orderBy)){
-                    photos = photoRepository.findByAlbumIdAndNameContainingOrderByNameDesc(id, keyword);
+                    photos = photoRepository.findByAlbumIdAndFileNameContainingOrderByFileNameDesc(id, keyword);
                 } else {
                     throw new IllegalArgumentException("잘못된 정렬 방식입니다.");
                 }

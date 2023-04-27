@@ -8,11 +8,8 @@ import java.util.List;
 
 @Repository
 public interface PhotoRepository extends JpaRepository<Photo, Long> {
-    List<Photo> findByAlbumIdAndNameContainingOrderByCreatedAtAsc(Long id, String keyword);
-
-    List<Photo> findByAlbumIdAndNameContainingOrderByCreatedAtDesc(Long id, String keyword);
-
-    List<Photo> findByAlbumIdAndNameContainingOrderByNameAsc(Long id, String keyword);
-
-    List<Photo> findByAlbumIdAndNameContainingOrderByNameDesc(Long id, String keyword);
+    List<Photo> findByAlbumIdAndFileNameContainingOrderByUploadedAtAsc(Long id, String keyword);
+    List<Photo> findByAlbumIdAndFileNameContainingOrderByUploadedAtDesc(Long id, String keyword);
+    List<Photo> findByAlbumIdAndFileNameContainingOrderByFileNameAsc(Long id, String keyword);
+    List<Photo> findByAlbumIdAndFileNameContainingOrderByFileNameDesc(Long id, String keyword);
 }
