@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/v1/albums/{albumId}/photos")
@@ -29,5 +30,15 @@ public class PhotoController {
             @RequestParam(value = "orderBy", required = false, defaultValue = "desc") final String orderBy
     ) {
         return ResponseEntity.ok(photoService.getPhotoList(id, sort, keyword, orderBy));
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Void> handleIllegalArgumentException(IllegalArgumentException e) {
+        return ResponseEntity.badRequest().build();
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<Void> handleNoSuchElementException(NoSuchElementException e) {
+        return ResponseEntity.notFound().build();
     }
 }
