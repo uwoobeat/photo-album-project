@@ -58,4 +58,42 @@ class PhotoServiceTest {
         assertEquals("testFileUrl", responsePhotoDto.getFileUrl());
         assertEquals("testThumbnailUrl", responsePhotoDto.getThumbnailUrl());
     }
+
+    @Test
+    @DisplayName("사진 전체 조회 테스트")
+    void getAllPhotos() {
+        // given
+        Album album1 = Album.createAlbum("testAlbum1");
+        Album album2 = Album.createAlbum("testAlbum2");
+        albumRepository.save(album1);
+        albumRepository.save(album2);
+
+        for (int i = 0; i < 5; i++) {
+            PhotoDto photoDto = PhotoDto.builder()
+                    .fileName("testPhoto" + i + "withAlbum1")
+                    .fileSize(100L)
+                    .fileUrl("testFileUrl" + i)
+                    .thumbnailUrl("testThumbnailUrl" + i)
+                    .build();
+            photoService.createPhoto(1L, photoDto);
+        }
+
+        for (int i = 0; i < 7; i++) {
+            PhotoDto photoDto = PhotoDto.builder()
+                    .fileName("testPhoto" + i + "withAlbum2")
+                    .fileSize(100L)
+                    .fileUrl("testFileUrl" + i)
+                    .thumbnailUrl("testThumbnailUrl" + i)
+                    .build();
+            photoService.createPhoto(2L, photoDto);
+        }
+
+        // when
+        int photoCount1 = photoService.getPhotoList(1L, "byDate", "Album1", "desc").size();
+        int photoCount2 = photoService.getPhotoList(2L, "byDate", "Album2", "desc").size();
+
+        // then
+        assertEquals(5, photoCount1);
+        assertEquals(7, photoCount2);
+    }
 }
