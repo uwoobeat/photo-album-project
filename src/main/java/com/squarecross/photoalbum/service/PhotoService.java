@@ -59,4 +59,8 @@ public class PhotoService {
                 .map(PhotoMapper::toDto)
                 .collect(Collectors.toList());
     }
+
+    public PhotoDto getPhotoById(Long albumId, Long photoId) {
+        return PhotoMapper.toDto(photoRepository.findByAlbumIdAndId(albumId, photoId));
+    }
 }
