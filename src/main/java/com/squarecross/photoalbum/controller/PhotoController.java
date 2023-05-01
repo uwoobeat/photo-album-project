@@ -32,6 +32,11 @@ public class PhotoController {
         return ResponseEntity.ok(photoService.getPhotoList(id, sort, keyword, orderBy));
     }
 
+    @GetMapping(value = "/{photoId}")
+    public ResponseEntity<PhotoDto> getPhotoById(@PathVariable("albumId") final Long albumId, @PathVariable("photoId") final Long photoId) {
+        return ResponseEntity.ok(photoService.getPhotoById(albumId, photoId));
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Void> handleIllegalArgumentException(IllegalArgumentException e) {
         return ResponseEntity.badRequest().build();
