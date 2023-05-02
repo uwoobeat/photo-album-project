@@ -80,4 +80,26 @@ class PhotoControllerTest {
         assertEquals(200, responseEntity.getStatusCodeValue());
         assertEquals(3, responseEntity.getBody().size());
     }
+
+    @Test
+    @DisplayName("사진 ID로 조회 GET 테스트")
+    void getPhotoById() {
+        // given
+        Album album = Album.createAlbum("testAlbum");
+        albumRepository.save(album);
+
+        PhotoDto photoDto = PhotoDto.builder()
+                .fileName("testPhoto")
+                .fileSize(100L)
+                .fileUrl("testFileUrl")
+                .thumbnailUrl("testThumbnailUrl")
+                .build();
+        restTemplate.postForEntity("/api/v1/albums/1/photos", photoDto, PhotoDto.class);
+
+        // when
+        ResponseEntity<PhotoDto> responseEntity = restTemplate.getForEntity("/api/v1/albums/1/photos/1", PhotoDto.class);
+
+        // then
+        assertEquals(200, responseEntity.getStatusCodeValue());
+    }
 }
