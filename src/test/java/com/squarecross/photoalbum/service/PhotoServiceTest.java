@@ -96,4 +96,29 @@ class PhotoServiceTest {
         assertEquals(5, photoCount1);
         assertEquals(7, photoCount2);
     }
+
+    @Test
+    @DisplayName("사진 아이디로 조회 테스트")
+    void getPhotoById() {
+        // given
+        Album album = Album.createAlbum("testAlbum");
+        albumRepository.save(album);
+
+        PhotoDto photoDto = PhotoDto.builder()
+                .fileName("testPhoto")
+                .fileSize(100L)
+                .fileUrl("testFileUrl")
+                .thumbnailUrl("testThumbnailUrl")
+                .build();
+        PhotoDto responsePhotoDto = photoService.createPhoto(1L, photoDto);
+
+        // when
+        PhotoDto findPhotoDto = assertDoesNotThrow(() -> photoService.getPhotoById(1L, responsePhotoDto.getId()));
+
+        // then
+        assertEquals("testPhoto", findPhotoDto.getFileName());
+        assertEquals(100L, findPhotoDto.getFileSize());
+        assertEquals("testFileUrl", findPhotoDto.getFileUrl());
+        assertEquals("testThumbnailUrl", findPhotoDto.getThumbnailUrl());
+    }
 }
