@@ -121,4 +121,24 @@ class PhotoServiceTest {
         assertEquals("testFileUrl", findPhotoDto.getFileUrl());
         assertEquals("testThumbnailUrl", findPhotoDto.getThumbnailUrl());
     }
+
+    @Test
+    @DisplayName("사진 삭제 테스트")
+    void deletePhoto() {
+        // given
+        Album album = Album.createAlbum("testAlbum");
+        albumRepository.save(album);
+
+        PhotoDto photoDto = PhotoDto.builder()
+                        .fileName("testPhoto")
+                        .fileSize(100L)
+                        .fileUrl("testFileUrl")
+                        .thumbnailUrl("testThumbnailUrl")
+                        .build();
+        PhotoDto responsePhotoDto = photoService.createPhoto(1L, photoDto);
+
+        // when and then
+        assertDoesNotThrow(() -> photoService.deletePhoto(1L, responsePhotoDto.getId()));
+        assertThrows(NoSuchElementException.class, () -> photoService.getPhotoById(1L, responsePhotoDto.getId()));
+    }
 }
