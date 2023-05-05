@@ -37,6 +37,12 @@ public class PhotoController {
         return ResponseEntity.ok(photoService.getPhotoById(albumId, photoId));
     }
 
+    @DeleteMapping(value = "/{photoId}")
+    public ResponseEntity<Void> deletePhoto(@PathVariable("albumId") final Long albumId, @PathVariable("photoId") final Long photoId) {
+        photoService.deletePhoto(albumId, photoId);
+        return ResponseEntity.ok().build();
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Void> handleIllegalArgumentException(IllegalArgumentException e) {
         return ResponseEntity.badRequest().build();
