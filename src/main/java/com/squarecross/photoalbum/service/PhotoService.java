@@ -64,5 +64,8 @@ public class PhotoService {
         Photo photo = photoRepository.findByAlbumIdAndId(albumId, photoId).orElseThrow(NoSuchElementException::new);
         return PhotoMapper.toDto(photo);
     }
+
+    public void deletePhoto(Long albumId, Long photoId) {
+        photoRepository.deleteByAlbumIdAndId(albumId, photoId);
     }
 }
