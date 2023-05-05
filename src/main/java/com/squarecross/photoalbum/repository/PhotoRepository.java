@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PhotoRepository extends JpaRepository<Photo, Long> {
@@ -13,5 +14,7 @@ public interface PhotoRepository extends JpaRepository<Photo, Long> {
     List<Photo> findByAlbumIdAndFileNameContainingOrderByFileNameAsc(Long id, String keyword);
     List<Photo> findByAlbumIdAndFileNameContainingOrderByFileNameDesc(Long id, String keyword);
 
-    Photo findByAlbumIdAndId(Long albumId, Long photoId);
+    Optional<Photo> findByAlbumIdAndId(Long albumId, Long photoId);
+
+    void deleteByAlbumIdAndId(Long albumId, Long photoId);
 }
