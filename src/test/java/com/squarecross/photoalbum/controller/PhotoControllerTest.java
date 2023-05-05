@@ -102,4 +102,29 @@ class PhotoControllerTest {
         // then
         assertEquals(200, responseEntity.getStatusCodeValue());
     }
+
+    @Test
+    @DisplayName("사진 삭제 DELETE 테스트")
+    void deletePhoto() {
+        // given
+        Album album = Album.createAlbum("testAlbum");
+        albumRepository.save(album);
+
+        PhotoDto photoDto1 = PhotoDto.builder()
+                .fileName("testPhoto1")
+                .fileSize(100L)
+                .fileUrl("testFileUrl1")
+                .thumbnailUrl("testThumbnailUrl1")
+                .build();
+
+        ResponseEntity<PhotoDto> postForEntity1 = restTemplate.postForEntity("/api/v1/albums/1/photos", photoDto1, PhotoDto.class);
+
+
+        // when
+        restTemplate.delete("/api/v1/albums/1/photos/" + postForEntity1.getBody().getId());
+
+        // then
+        ResponseEntity<PhotoDto> responseEntity = restTemplate.getForEntity("/api/v1/albums/1/photos/" + postForEntity1.getBody().getId(), PhotoDto.class);
+        assertEquals(404, responseEntity.getStatusCodeValue());
+    }
 }
